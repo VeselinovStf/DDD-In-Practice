@@ -3,61 +3,26 @@
     public sealed class SnackMachine
     {
 
-        public int OneCentCount { get; private set; }
-        public int TenCentCount { get; private set; }
-        public int QuarterCentCount { get; private set; }
-        public int OneDolarCount { get; private set; }
-        public int FiveDolarCount { get; private set; }
-        public int TwentyDolarCount { get; private set; }
+        public Money MoneyInside { get; private set; } = 
+            new Money(0, 0, 0, 0, 0, 0);
+        public Money MoneyInTransaction { get; private set; } = 
+            new Money(0, 0, 0, 0, 0, 0);
 
-        public int OneCentCountTransaction { get; private set; }
-        public int TenCentCountTransaction { get; private set; }
-        public int QuarterCentCountTransaction { get; private set; }
-        public int OneDolarCountTransaction { get; private set; }
-        public int FiveDolarCountTransaction { get; private set; }
-        public int TwentyDolarCountTransaction { get; private set; }
-
-        public void InsertMoney(
-            int oneCentCount, 
-            int tenCentCount, 
-            int quarterCentCount, 
-            int oneDolarCount,
-            int fiveDolarCount,
-            int twentyDolarCount)
+        public void InsertMoney(Money insertedMoney)
         {
-            this.OneCentCountTransaction += oneCentCount;
-            this.TenCentCountTransaction += tenCentCount;
-            this.QuarterCentCountTransaction += quarterCentCount;
-            this.OneDolarCountTransaction += oneDolarCount;
-            this.FiveDolarCountTransaction += fiveDolarCount;
-            this.TwentyDolarCountTransaction += twentyDolarCount;
+            this.MoneyInTransaction += insertedMoney;
         }
 
         public void ReturnMoneyBack()
         {
-            this.OneCentCountTransaction = 0;
-            this.TenCentCountTransaction = 0;
-            this.QuarterCentCountTransaction = 0;
-            this.OneDolarCountTransaction = 0;
-            this.FiveDolarCountTransaction = 0;
-            this.TwentyDolarCountTransaction = 0;
+            this.MoneyInTransaction = new Money(0,0,0,0,0,0);
         }
 
         public void BuySnack()
         {
-            this.OneCentCount += OneCentCountTransaction;
-            this.TenCentCount += TenCentCountTransaction;
-            this.QuarterCentCount += QuarterCentCountTransaction;
-            this.OneDolarCount += OneDolarCountTransaction;
-            this.FiveDolarCount += FiveDolarCountTransaction;
-            this.TwentyDolarCount += TwentyDolarCountTransaction;
+            this.MoneyInside += MoneyInTransaction;             
 
-            this.OneCentCountTransaction = 0;
-            this.TenCentCountTransaction = 0;
-            this.QuarterCentCountTransaction = 0;
-            this.OneDolarCountTransaction = 0;
-            this.FiveDolarCountTransaction = 0;
-            this.TwentyDolarCountTransaction = 0;
+            this.MoneyInTransaction = new Money(0, 0, 0, 0, 0, 0);
         }
     }
 }
