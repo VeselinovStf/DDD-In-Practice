@@ -1,6 +1,6 @@
 ﻿namespace DddInPractice.Logic
 {
-    public sealed class Money
+    public sealed class Money : ValueObject<Money>
     {
         public int OneCentCount { get; private set; }
         public int TenCentCount { get; private set; }
@@ -35,6 +35,32 @@
               a.TwentyDolarCount + b.TwentyDolarCount
               );
 
+        }
+
+        protected override bool EqualsStructural(Money other)
+        {
+            return OneCentCount == other.OneCentCount
+              && TenCentCount == other.TenCentCount
+              && QuarterCentCount == other.QuarterCentCount
+              && OneDolarCount == other.OneDolarCount
+              && FiveDolarCount == other.FiveDolarCount
+              && TwentyDolarCount == other.TwentyDolarCount;
+        }
+
+        protected override int GetHashCodeInternal()
+        {
+            unchecked
+            {
+                int hashCode = OneCentCount;
+
+                hashCode = (hashCode * 397) ^ TenCentCount;
+                hashCode = (hashCode * 397) ^ QuarterCentCount;
+                hashCode = (hashCode * 397) ^ OneDolarCount;
+                hashCode = (hashCode * 397) ^ FiveDolarCount;
+                hashCode = (hashCode * 397) ^ TwentyDolarCount;
+
+                return hashCode;
+            }
         }
     }
 }
