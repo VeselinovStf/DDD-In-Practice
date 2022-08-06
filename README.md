@@ -1,12 +1,11 @@
 # Domain-Driven Design in Practice
 
-
 - by Vladimir Khorikov
 - A descriptive, in-depth walk-through for applying Domain-Driven Design principles in practice.
 
-While Domain-Driven Design offers invaluable insights regarding developing enterprise-level software projects, it is often unclear how to apply them in practice. In this course, we'll go through the whole process of building an application from the very beginning using the DDD principles.
+## This course is part of: Domain-Driven Design Path
 
-</pre>
+While Domain-Driven Design offers invaluable insights regarding developing enterprise-level software projects, it is often unclear how to apply them in practice. In this course, we'll go through the whole process of building an application from the very beginning using the DDD principles.
 
 ## Content
 
