@@ -17,12 +17,12 @@
             int fiveDolarCount,
             int twentyDolarCount)
         {
-            this.OneCentCount = oneCentCount;
-            this.TenCentCount = tenCentCount;
-            this.QuarterCentCount = quarterCentCount;
-            this.OneDolarCount = oneDolarCount;
-            this.FiveDolarCount = fiveDolarCount;
-            this.TwentyDolarCount = twentyDolarCount;
+            this.OneCentCount = oneCentCount < 0 ? throw new InvalidOperationException() : oneCentCount;
+            this.TenCentCount = tenCentCount < 0 ? throw new InvalidOperationException() : tenCentCount;
+            this.QuarterCentCount = quarterCentCount < 0 ? throw new InvalidOperationException() : quarterCentCount;
+            this.OneDolarCount = oneDolarCount < 0 ? throw new InvalidOperationException() : oneDolarCount;
+            this.FiveDolarCount = fiveDolarCount < 0 ? throw new InvalidOperationException() : fiveDolarCount;
+            this.TwentyDolarCount = twentyDolarCount < 0 ? throw new InvalidOperationException() : twentyDolarCount;
         }
 
         public static Money operator +(Money a, Money b){
