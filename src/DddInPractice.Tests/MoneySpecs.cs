@@ -67,5 +67,72 @@
 
             action.Should().Throw<InvalidOperationException>();
         }
+
+
+        [Theory]
+        [InlineData(0, 0, 0, 0, 0, 0, 0)]
+        [InlineData(1, 0, 0, 0, 0, 0, 0.01)]
+        [InlineData(0, 1, 0, 0, 0, 0, 0.10)]
+        [InlineData(0, 0, 1, 0, 0, 0, 0.25)]
+        [InlineData(0, 0, 0, 1, 0, 0, 1.00)]
+        [InlineData(0, 0, 0, 0, 1, 0, 5.00)]
+        [InlineData(0, 0, 0, 0, 0, 1, 20.00)]
+        [InlineData(1, 1, 1, 1, 1, 1, 26.36)]
+        public void Calculate_Amount_Correctly(
+            int oneCentCount,
+            int tenCentCount,
+            int quarterCentCount,
+            int oneDolarCount,
+            int fiveDolarCount,
+            int twentyDolarCount,
+            decimal expectedAmount)
+        {
+            Money money = new Money(
+                oneCentCount,
+                tenCentCount,
+                quarterCentCount,
+                oneDolarCount,
+                fiveDolarCount,
+                twentyDolarCount
+                );
+
+            money.Amount.Should().Be(expectedAmount);
+        }
+
+        [Fact]
+        public void Substract_Of_Two_Money_Producess_Correct_Result()
+        {
+            // Arrange
+            Money m1 = new Money(1, 2, 3, 4, 5, 6);
+            Money m2 = new Money(1, 2, 3, 4, 5, 6);
+
+            // Act
+            Money sum = m1 - m2;
+
+            // Assert
+            sum.OneCentCount.Should().Be(0);
+            sum.TenCentCount.Should().Be(0);
+            sum.QuarterCentCount.Should().Be(0);
+            sum.OneDolarCount.Should().Be(0);
+            sum.FiveDolarCount.Should().Be(0);
+            sum.TwentyDolarCount.Should().Be(0);
+        }
+
+        [Fact]
+        public void Cannot_Substract_Of_Two_Money()
+        {
+            // Arrange
+            Money m1 = new Money(1, 2, 3, 4, 5, 6);
+            Money m2 = new Money(2, 2, 3, 4, 5, 6);
+
+            // Act
+            Action action = () =>
+            {
+                Money substraction = m1 - m2;
+            };
+
+            // Assert
+            action.Should().Throw<InvalidOperationException>();
+        }
     }
 }

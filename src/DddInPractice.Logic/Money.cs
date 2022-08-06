@@ -2,12 +2,28 @@
 {
     public sealed class Money : ValueObject<Money>
     {
-        public int OneCentCount { get; private set; }
-        public int TenCentCount { get; private set; }
-        public int QuarterCentCount { get; private set; }
-        public int OneDolarCount { get; private set; }
-        public int FiveDolarCount { get; private set; }
-        public int TwentyDolarCount { get; private set ; }
+        public static readonly Money None = new Money(0, 0, 0, 0, 0, 0);
+
+        public static readonly Money Cent = new Money(1, 0, 0, 0, 0, 0);
+        public static readonly Money TenCent = new Money(0, 1, 0, 0, 0, 0);
+        public static readonly Money QuarterCent = new Money(0, 0, 1, 0, 0, 0);
+        public static readonly Money Dolar = new Money(0, 0, 0, 1, 0, 0);
+        public static readonly Money FiveDolar = new Money(0, 0, 0, 0, 1, 0);
+        public static readonly Money TwentyDolar = new Money(0, 0, 0, 0, 0, 1);
+
+        public int OneCentCount { get; }
+        public int TenCentCount { get; }
+        public int QuarterCentCount { get; }
+        public int OneDolarCount { get; }
+        public int FiveDolarCount { get; }
+        public int TwentyDolarCount { get; }
+
+        public decimal Amount => OneCentCount * 0.01m +
+                    TenCentCount * 0.10m +
+                    QuarterCentCount * 0.25m +
+                    OneDolarCount +
+                    FiveDolarCount * 5 +
+                    TwentyDolarCount * 20;
 
         public Money(
             int oneCentCount,
@@ -25,27 +41,33 @@
             this.TwentyDolarCount = twentyDolarCount < 0 ? throw new InvalidOperationException() : twentyDolarCount;
         }
 
-        public static Money operator +(Money a, Money b){
-           return new Money(
-              a.OneCentCount + b.OneCentCount,
-              a.TenCentCount + b.TenCentCount,
-              a.QuarterCentCount + b.QuarterCentCount,
-              a.OneDolarCount + b.OneDolarCount,
-              a.FiveDolarCount + b.FiveDolarCount,
-              a.TwentyDolarCount + b.TwentyDolarCount
-              );
+        public static Money operator +(Money a, Money b) => 
+            new Money(
+               a.OneCentCount + b.OneCentCount,
+               a.TenCentCount + b.TenCentCount,
+               a.QuarterCentCount + b.QuarterCentCount,
+               a.OneDolarCount + b.OneDolarCount,
+               a.FiveDolarCount + b.FiveDolarCount,
+               a.TwentyDolarCount + b.TwentyDolarCount
+            );
 
-        }
+        public static Money operator -(Money a, Money b) =>
+           new Money(
+              a.OneCentCount - b.OneCentCount,
+              a.TenCentCount - b.TenCentCount,
+              a.QuarterCentCount - b.QuarterCentCount,
+              a.OneDolarCount - b.OneDolarCount,
+              a.FiveDolarCount - b.FiveDolarCount,
+              a.TwentyDolarCount - b.TwentyDolarCount
+           );
 
-        protected override bool EqualsStructural(Money other)
-        {
-            return OneCentCount == other.OneCentCount
+        protected override bool EqualsStructural(Money other) => 
+                 OneCentCount == other.OneCentCount
               && TenCentCount == other.TenCentCount
               && QuarterCentCount == other.QuarterCentCount
               && OneDolarCount == other.OneDolarCount
               && FiveDolarCount == other.FiveDolarCount
               && TwentyDolarCount == other.TwentyDolarCount;
-        }
 
         protected override int GetHashCodeInternal()
         {
